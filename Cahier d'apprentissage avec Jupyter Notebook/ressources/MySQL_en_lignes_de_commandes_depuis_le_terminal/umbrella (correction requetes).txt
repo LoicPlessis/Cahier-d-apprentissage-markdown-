@@ -1,0 +1,31 @@
+--Services dans l ordre alphabétique
+SELECT libelle FROM service ORDER BY libelle;
+
+--Sylvie Durand devient Sylvie Dupont
+UPDATE employe SET nom='Dupont' WHERE nom='Durand' AND prenom='Sylvie';
+
+--Ajouter Simon Fermin
+SELECT id_service WHERE libelle='Commercial';
+SELECT id_site WHERE nom='Iles Canaries';
+INSERT INTO employe(nom, prenom, embauche, id_service, id_site)
+VALUES ('Fermin', 'Simon', 2018, '2','2');
+
+--tous les employés du service Administratif
+SELECT employe.nom, employe.prenom FROM employe
+NATURAL JOIN service
+WHERE service.libelle = 'Administratif';
+
+--Tous les employés de Hollande arrivés à partir de 2011
+SELECT employe.nom, employe.prenom FROM employe
+JOIN site ON employe.id_site = site.id_site
+WHERE employe.embauche >= 2011 AND site.nom = 'Hollande';
+
+-- Tous les employés en vacances à partir du 01/01/2019
+SELECT employe.nom, employe.prenom FROM employe
+NATURAL JOIN vacances
+WHERE vacances.fin >= '2019-01-01';
+
+--Ajouter les vac de Patricia du 21/12/2018 au 07/01/2019
+SELECT id_employe FROM employe WHERE nom='Gernau' AND prenom='Patricia';
+INSERT INTO vacances(debut, fin, id_employe) 
+VALUES ('2018-12-21', '2019-01-07', '2');

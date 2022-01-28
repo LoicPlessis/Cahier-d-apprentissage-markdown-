@@ -1,0 +1,76 @@
+
+//Afficher les arrêts dans l'ordre alphabétique
+SELECT nom FROM arrets ORDER BY nom;
+
+//Afficher la liste de toutes les immatriculations des bus.
+SELECT immatriculation FROM bus;
+
+//Ajout de la ligne noire
+INSERT INTO ligne (nom) VALUES ('noir');
+SELECT id_ligne FROM ligne WHERE nom='noir'; //l'id est 4
+INSERT INTO arret_ligne (id_arret, id_ligne) SELECT id_arret, 4 FROM arret WHERE nom="Korrigan"
+INSERT INTO arret_ligne (id_arret, id_ligne) SELECT id_arret, 4 FROM arret WHERE nom="L'Ankou"
+INSERT INTO arret_ligne (id_arret, id_ligne) SELECT id_arret, 4 FROM arret WHERE nom="Viviane"
+
+//Correction de l’erreur sur l’adresse de L’ankou
+UPDATE Arret SET adresse = "3 place du L'Ankou" WHERE nom = "L'Ankou";
+
+//Sélectionner tous les bus de la ligne Rouge.
+SELECT bus.numero, bus.immatriculation, lignes.nom FROM bus
+JOIN lignes ON bus.id_ligne = lignes.id_ligne
+WHERE lignes.nom = 'Rouge';
+
+//ajout de bus sur la ligne noire
+SELECT id_ligne FROM ligne WHERE nom='noir'; //l'id est 4
+INSERT INTO bus (numero, immatriculation, nombre_place, id_ligne) VALUES ('BBO5', 'PU123LL',30,4),
+('BBO6', 'FE123TE',30,4);
+
+//Trouver tous les arrêts du bus BB01.
+SELECT bus.numero, arrets.nom FROM bus
+JOIN lignes ON bus.id_ligne = lignes.id_ligne
+JOIN arret_ligne ON lignes.id_ligne = arret_ligne.id_ligne
+JOIN arrets ON arret_ligne.id_arret = arrets.id_arret
+WHERE bus.numero = 'BB01';
+
+//compte le nombre de bus
+SELECT COUNT(*) AS nb_bus FROM bus;
+
+//Compter le nombre d'arrêts de la ligne bleu.
+SELECT COUNT(DISTINCT arrets.nom) AS arrets_bleu FROM arrets
+JOIN arret_ligne ON arrets.id_arret = arret_ligne.id_arret
+JOIN lignes ON arret_ligne.id_ligne = lignes.id_ligne
+WHERE lignes.nom = 'Bleu';
+
+//Trouver toutes les lignes qui passe par Morgana.
+SELECT lignes.nom, arrets.nom FROM lignes
+JOIN arret_ligne ON lignes.id_ligne = arret_ligne.id_ligne
+JOIN arrets ON arret_ligne.id_arret = arrets.id_arret
+WHERE arrets.nom = 'Morgana';
+
+==========================================================
+
+Cabinet médical
+// Toutes les colonnes de toutes les tables
+SHOW Tables;
+DESCRIBE Client;
+DESCRIBE Medecin;
+DESCRIBE ....
+
+//    afficher les informations de Cooper
+SELECT * FROM Client WHERE nom_client = «Cooper» AND prenom_client = « Sheldon »
+
+//    afficher les informations de Penny
+SELECT * FROM Medecin WHERE nom_medecin = «Penny» AND prenom_medecin = « Céline »
+
+//Les clients par ordre alphabétique
+SELECT * FROM Client ORDER BY nom_client, prenom_client
+
+//nb de rdv le 03/10/2016
+SELECT COUNT(DISTINCT *) AS nb_rdv WHERE jour_rdv = « 2016-03-10 »;
+
+//tous les rdv, jour et heure pour Hofstadter
+SELECT jour_rdv, creneau_rdv FROM rdv
+JOIN client ON rdv.client_rdv = client.id_client
+WHERE nom_client = « Hofstadter »
+
+.
